@@ -1,0 +1,133 @@
+package databases
+
+import (
+	"MetaHandler/server/databases/types"
+	"MetaHandler/tools"
+)
+
+func RemoveTargetHost(TargetHosts interface{}, hostID string) (err error) {
+	// Create connection from bootstrap func
+	db := switchDB()
+	if hostID == "" {
+		db.Delete(&TargetHosts)
+	} else {
+		db.Where("host_id = ?", hostID).Delete(&TargetHosts)
+	}
+
+	// Execute then close
+	sqlDB, err := db.DB()
+	if err != nil {
+		tools.ZapLogger("file", "server").Info(err.Error())
+		sqlDB.Close()
+		return db.Error
+	}
+	sqlDB.Close()
+	return db.Error
+}
+
+func GetDeletedTargetHost(TargetHosts *types.HostData, hostID string) (err error) {
+	// Create connection from bootstrap func
+	db := switchDB()
+	if hostID == "" {
+		db.Where("host_id = ?", hostID).Unscoped().Find(&TargetHosts)
+	} else {
+		db.Where("host_id = ?", hostID).Unscoped().Last(&TargetHosts)
+	}
+
+	// Execute then close
+	sqlDB, err := db.DB()
+	if err != nil {
+		tools.ZapLogger("file", "server").Info(err.Error())
+		sqlDB.Close()
+		return db.Error
+	}
+	sqlDB.Close()
+	return db.Error
+}
+
+func PermanentDeleteTargetHost(TargetHosts *types.HostData) (err error) {
+	// Create connection from bootstrap func
+	db := switchDB()
+	if TargetHosts.HostID == "" {
+		return db.Error
+	} else {
+		db.Unscoped().Delete(&TargetHosts)
+	}
+
+	// Execute then close
+	sqlDB, err := db.DB()
+	if err != nil {
+		tools.ZapLogger("file", "server").Info(err.Error())
+		sqlDB.Close()
+		return db.Error
+	}
+	sqlDB.Close()
+	return db.Error
+}
+
+func GetAllTargetHosts(TargetHosts *[]types.HostData) (rowEffected int64, err error) {
+	// Create connection from bootstrap func
+	db := switchDB()
+	runQuery := db.Find(&TargetHosts)
+
+	// Execute then close
+	sqlDB, _ := db.DB()
+	if runQuery.Error != nil {
+		tools.ZapLogger("file", "server").Info(runQuery.Error.Error())
+		sqlDB.Close()
+		return runQuery.RowsAffected, db.Error
+	}
+	sqlDB.Close()
+	return runQuery.RowsAffected, runQuery.Error
+}
+
+func GetTargetHosts(TargetHosts *types.HostData, hostID string) (rowEffected int64, err error) {
+	// Create connection from bootstrap func
+	db := switchDB()
+	runQuery := db.Where("host_id = ?", hostID).Last(&TargetHosts)
+
+	// Execute then close
+	sqlDB, _ := db.DB()
+	if runQuery.Error != nil {
+		tools.ZapLogger("file", "server").Info(runQuery.Error.Error())
+		sqlDB.Close()
+		return runQuery.RowsAffected, db.Error
+	}
+	sqlDB.Close()
+	return runQuery.RowsAffected, runQuery.Error
+}
+
+func InsertTargetHosts(hostData types.HostData) error {
+	// Create connection from bootstrap func
+	db := switchDB()
+
+	// Store data to DB
+	db.Create(&hostData)
+
+	// Execute then close
+	sqlDB, err := db.DB()
+	if err != nil {
+		tools.ZapLogger("file", "server").Info(err.Error())
+		sqlDB.Close()
+		return db.Error
+	}
+	sqlDB.Close()
+	return db.Error
+}
+
+func UpdateTargetHosts(hostData types.HostData) error {
+	// Create connection from bootstrap func
+	db := switchDB()
+
+	// Update database
+	db.Model(&hostData).Where("host_id = ?", hostData.HostID).Updates(hostData)
+
+	sqlDB, err := db.DB()
+	if err != nil {
+		tools.ZapLogger("file", "server").Info(err.Error())
+		sqlDB.Close()
+		return db.Error
+	}
+	sqlDB.Close()
+	return db.Error
+}

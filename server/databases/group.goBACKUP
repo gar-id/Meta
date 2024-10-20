@@ -1,0 +1,142 @@
+package databases
+
+import (
+	"MetaHandler/server/databases/types"
+	GroupType "MetaHandler/server/databases/types"
+	"MetaHandler/tools"
+
+	"gorm.io/gorm"
+)
+
+func GetAllGroup(GroupsData *[]GroupType.GroupData) (int64, error) {
+	// Create connection from bootstrap func
+	var result *gorm.DB
+	db := switchDB()
+	result = db.Find(&GroupsData)
+
+	// Execute then close
+	sqlDB, _ := db.DB()
+	if result.Error != nil {
+		tools.ZapLogger("file", "server").Info(result.Error.Error())
+		sqlDB.Close()
+		return result.RowsAffected, result.Error
+	}
+	sqlDB.Close()
+	return result.RowsAffected, result.Error
+}
+
+func GetGroup(GroupData interface{}, GroupId string) (int64, error) {
+	// Create connection from bootstrap func
+	var result *gorm.DB
+	db := switchDB()
+
+	// Check GroupID in database
+	if GroupId == "" {
+		result = db.Find(&GroupData)
+	} else if GroupId != "" {
+		result = db.Where("group_id = ?", GroupId).Last(&GroupData)
+	}
+
+	// Execute then close
+	sqlDB, _ := db.DB()
+	if result.Error != nil {
+		tools.ZapLogger("file", "server").Info(result.Error.Error())
+		sqlDB.Close()
+		return result.RowsAffected, result.Error
+	}
+	sqlDB.Close()
+	return result.RowsAffected, result.Error
+}
+
+func AddGroup(GroupData GroupType.GroupData) error {
+	// Create connection from bootstrap func
+	db := switchDB()
+
+	// Store data to DB
+	db.Create(&GroupData)
+
+	// Execute then close
+	sqlDB, err := db.DB()
+	if err != nil {
+		tools.ZapLogger("file", "server").Info(err.Error())
+		sqlDB.Close()
+		return db.Error
+	}
+	sqlDB.Close()
+	return db.Error
+}
+
+func UpdateGroup(GroupData types.GroupData) (int64, error) {
+	// Create connection from bootstrap func
+	var result *gorm.DB
+	db := switchDB()
+
+	// Update database
+	result = db.Model(&GroupData).Where("group_id = ?", GroupData.GroupID).Updates(GroupData)
+
+	sqlDB, _ := db.DB()
+	if result.Error != nil {
+		tools.ZapLogger("file", "server").Info(result.Error.Error())
+		sqlDB.Close()
+		return result.RowsAffected, result.Error
+	}
+	sqlDB.Close()
+	return result.RowsAffected, result.Error
+}
+
+func RemoveGroup(GroupData *types.GroupData, groupID string) (err error) {
+	// Create connection from bootstrap func
+	var result *gorm.DB
+	db := switchDB()
+
+	// Update database
+	result = db.Where("group_id = ?", groupID).Delete(&GroupData)
+
+	// Execute then close
+	sqlDB, _ := db.DB()
+	if result.Error != nil {
+		tools.ZapLogger("file", "server").Info(result.Error.Error())
+		sqlDB.Close()
+		return result.Error
+	}
+	sqlDB.Close()
+	return result.Error
+}
+
+func PermanentDeleteGroup(GroupData *types.GroupData) (err error) {
+	// Create connection from bootstrap func
+	var result *gorm.DB
+	db := switchDB()
+
+	// Update database
+	result = db.Unscoped().Delete(&GroupData)
+
+	// Execute then close
+	sqlDB, _ := db.DB()
+	if result.Error != nil {
+		tools.ZapLogger("file", "server").Info(result.Error.Error())
+		sqlDB.Close()
+		return result.Error
+	}
+	sqlDB.Close()
+	return result.Error
+}
+
+func GetDeletedGroup(GroupData *types.GroupData, groupID string) (err error) {
+	// Create connection from bootstrap func
+	var result *gorm.DB
+	db := switchDB()
+
+	// Get deleted grou
+	result = db.Where("group_id = ?", groupID).Unscoped().Last(&GroupData)
+
+	// Execute then close
+	sqlDB, _ := db.DB()
+	if result.Error != nil {
+		tools.ZapLogger("file", "server").Info(result.Error.Error())
+		sqlDB.Close()
+		return result.Error
+	}
+	sqlDB.Close()
+	return result.Error
+}
