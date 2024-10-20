@@ -1,19 +1,21 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
 	"fmt"
 
+	"MetaHandler/core/caches"
+
 	"github.com/spf13/cobra"
 )
 
 // startCmd represents the start command
 var startCmd = &cobra.Command{
-	Use:   "start",
-	Short: "A brief description of your command",
+	Version: caches.MetaHandlerVersion,
+	Use:     "start",
+	Short:   "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 

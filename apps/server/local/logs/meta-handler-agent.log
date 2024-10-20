@@ -1,0 +1,3 @@
+{"level":"info","timestamp":"2024-10-20T20:00:27.873+0700","caller":"/home/tegar/git/project-me/Meta/server/config/load.go:38","func":"MetaHandler/server/config.Bootstrap","msg":"Meta Handler database migration finished"}
+{"level":"info","timestamp":"2024-10-20T20:00:27.878+0700","caller":"/home/tegar/git/project-me/Meta/server/config/load.go:41","func":"MetaHandler/server/config.Bootstrap","msg":"Starting Meta Handler MQTT Server"}
+{"level":"info","timestamp":"2024-10-20T20:00:27.894+0700","caller":"/home/tegar/git/project-me/Meta/server/config/load.go:45","func":"MetaHandler/server/config.Bootstrap","msg":"Starting Meta Handler RestAPI Server"}

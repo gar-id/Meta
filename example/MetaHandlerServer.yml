@@ -1,0 +1,41 @@
+metaHandler:
+  api:
+    httpHost: "0.0.0.0"
+    httpPort: "3000"
+    mainToken: ef5d456ffef5caf2c4f0299ba3531d28
+    agentToken: 529b1757a21916538db70bfc0530f49a
+
+  log:
+    logLocation: "./local/logs"
+    logLevel: "info"
+
+  mqtt:
+    mqttPort: "1883"
+    mqttHost: "0.0.0.0"
+    mqttAdminUser: "admin"
+    mqttAdminPass: "MetaHandlerMQTT"
+    mqttAgentUser: "agent"
+    mqttAgentPass: "metahandleragent"
+
+  database:
+    databaseDriver: "sqlite"
+    timeZone: "Asia/Jakarta"
+    postgres:
+      postgresqlHost: "127.0.0.1"
+      postgresqlPost: 5432
+      postgresqlUser: "postgres"
+      postgresqlPassword: "postgres"
+      postgresqlDB: "posgres"
+      postgresqlSSLMode: "disable"
+      postgresqlTimeZone: "Asia/Jakarta"
+    mysql:
+      mysqlHost: "127.0.0.1"
+      mysqlPost: 5432 
+      mysqlUser: "root"
+      mysqlPassword: ""
+      mysqlDB: "centralissh"
+      mysqlCharset: "utf8mb4"
+      mysqlParseTime: "True"
+      mysqlLoc: "Local"
+    sqlite:
+      sqliteLocation: ./local/MetaHandler.db

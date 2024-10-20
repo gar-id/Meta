@@ -4,14 +4,18 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"github.com/gar-id/Meta/apps/agent/windows/setup"
+	"MetaHandler/agent/windows/setup"
+
+	"MetaHandler/core/caches"
+
 	"github.com/spf13/cobra"
 )
 
 // installCmd represents the install command
 var installCmd = &cobra.Command{
-	Use:   "install",
-	Short: "Install Meta-Handler Agent",
+	Version: caches.MetaHandlerVersion,
+	Use:     "install",
+	Short:   "Install Meta-Handler Agent",
 	Long: `Install Meta-Handler Agent to server Windows only. 
 You can not install this handler Into non-Windows
 OS. Any unknown behavior will be ignored`,

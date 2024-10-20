@@ -1,0 +1,5 @@
+time=2024-10-20T20:00:27.878+07:00 level=INFO msg="added hook" hook=auth-ledger
+time=2024-10-20T20:00:27.878+07:00 level=INFO msg="loaded auth rules" hook=auth-ledger authentication=4 acl=4
+time=2024-10-20T20:00:27.879+07:00 level=INFO msg="attached listener" id=MetaHandler_MQTT protocol=tcp address=[::]:1883
+time=2024-10-20T20:00:27.879+07:00 level=INFO msg="mochi mqtt starting" version=2.6.5
+time=2024-10-20T20:00:27.879+07:00 level=INFO msg="mochi mqtt server started"

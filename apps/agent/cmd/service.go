@@ -4,15 +4,18 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"github.com/gar-id/Meta/apps/agent/windows/services"
+	"MetaHandler/agent/windows/services"
+
+	"MetaHandler/core/caches"
 
 	"github.com/spf13/cobra"
 )
 
 // serviceCmd represents the service command
 var serviceCmd = &cobra.Command{
-	Use:   "service",
-	Short: "A brief description of your command",
+	Version: caches.MetaHandlerVersion,
+	Use:     "service",
+	Short:   "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 

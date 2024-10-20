@@ -7,7 +7,8 @@ import (
 	"os"
 	"path"
 
-	"github.com/gar-id/Meta/apps/agent/caches"
+	agentCaches "MetaHandler/agent/caches"
+	serverCaches "MetaHandler/server/config/caches"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -45,8 +46,12 @@ func coreZap(storeOption, apps string) *zap.Logger {
 	var logLocation, logLevel string
 	switch apps {
 	case "agent":
-		logLevel = DefaultString(caches.MetaHandlerAgent.AgentConfig.Log.Level, "debug")
-		logLocation = DefaultString(caches.MetaHandlerAgent.AgentConfig.Log.Location, path.Join("C", "Program Files", "Meta Handler", "logs"))
+		logLevel = DefaultString(agentCaches.MetaHandlerAgent.AgentConfig.Log.Level, "debug")
+		logLocation = DefaultString(agentCaches.MetaHandlerAgent.AgentConfig.Log.Location, path.Join("C", "Program Files", "Meta Handler", "logs"))
+	case "server":
+		logLevel = DefaultString(serverCaches.MetaHandlerServer.MetaHandlerServer.Log.Level, "debug")
+		logLocation = DefaultString(serverCaches.MetaHandlerServer.MetaHandlerServer.Log.Location, path.Join("/", "var", "log", "Meta Handler"))
+
 	}
 
 	if storeOption == "file" {

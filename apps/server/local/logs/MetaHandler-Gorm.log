@@ -1,0 +1,60 @@
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[0.040ms] [rows:-] SELECT count(*) FROM sqlite_master WHERE type='table' AND name="user_data"
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[10.961ms] [rows:0] CREATE TABLE `user_data` (`user_id` text,`created_at` datetime,`updated_at` datetime,`deleted_at` datetime,`token` text,`username` text,`mfa` numeric,`totp_secret` text,`role` text,`group` JSON,`public_key` text,`public_key_expired` datetime,`disabled` numeric,PRIMARY KEY (`user_id`))
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[10.531ms] [rows:0] CREATE INDEX `idx_user_data_deleted_at` ON `user_data`(`deleted_at`)
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[0.096ms] [rows:-] SELECT count(*) FROM sqlite_master WHERE type='table' AND name="group_data"
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[11.042ms] [rows:0] CREATE TABLE `group_data` (`group_id` text,`created_at` datetime,`updated_at` datetime,`deleted_at` datetime,`group_name` text,`role` text,`target_host` JSON,PRIMARY KEY (`group_id`))
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[13.161ms] [rows:0] CREATE INDEX `idx_group_data_deleted_at` ON `group_data`(`deleted_at`)
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[0.074ms] [rows:-] SELECT count(*) FROM sqlite_master WHERE type='table' AND name="host_data"
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[12.641ms] [rows:0] CREATE TABLE `host_data` (`host_id` text,`created_at` datetime,`updated_at` datetime,`deleted_at` datetime,`host_tags` JSON,`main_user` text,`hostname` text,`host` text,`port` text,`main_keypair` JSON,PRIMARY KEY (`host_id`))
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[10.297ms] [rows:0] CREATE INDEX `idx_host_data_deleted_at` ON `host_data`(`deleted_at`)
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[0.081ms] [rows:-] SELECT count(*) FROM sqlite_master WHERE type='table' AND name="client_accesses"
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[11.610ms] [rows:0] CREATE TABLE `client_accesses` (`client_ip` text,`created_at` datetime,`updated_at` datetime,`deleted_at` datetime,`user_name` text,`expired_at` datetime,PRIMARY KEY (`client_ip`))
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/bootstrap.go:38
+[9.762ms] [rows:0] CREATE INDEX `idx_client_accesses_deleted_at` ON `client_accesses`(`deleted_at`)
+
+2024/10/20 20:00:23 /home/tegar/git/project-me/Meta/server/databases/user.go:29 record not found
+[0.322ms] [rows:0] SELECT * FROM `user_data` WHERE user_id = "63a9f0ea7bb98050796b649e85481845" AND `user_data`.`deleted_at` IS NULL ORDER BY `user_data`.`user_id` DESC LIMIT 1
+
+2024/10/20 20:00:24 /home/tegar/git/project-me/Meta/server/databases/user.go:62
+[17.687ms] [rows:1] INSERT INTO `user_data` (`user_id`,`created_at`,`updated_at`,`deleted_at`,`token`,`username`,`mfa`,`totp_secret`,`role`,`group`,`public_key`,`public_key_expired`,`disabled`) VALUES ("63a9f0ea7bb98050796b649e85481845","2024-10-20 13:00:24.686","2024-10-20 13:00:24.686",NULL,"$2a$14$5u3Bmrd085krKiPgTpu1kO2KG3WZnhmIVWHI0hulYKUAcv13k7e3i","root",false,"","root",NULL,"","0000-00-00 00:00:00",false)
+
+2024/10/20 20:00:24 /home/tegar/git/project-me/Meta/server/databases/user.go:29
+[0.182ms] [rows:1] SELECT * FROM `user_data` WHERE user_id = "63a9f0ea7bb98050796b649e85481845" AND `user_data`.`deleted_at` IS NULL ORDER BY `user_data`.`user_id` DESC LIMIT 1
+
+2024/10/20 20:00:25 /home/tegar/git/project-me/Meta/server/databases/user.go:98
+[14.685ms] [rows:1] UPDATE `user_data` SET `user_id`="63a9f0ea7bb98050796b649e85481845",`updated_at`="2024-10-20 13:00:25.786",`token`="$2a$14$.wN.03WASaBFebMYXg3dJuzQTeEYGNcpmNP3NvwhrAhZwDBXRhukS",`username`="root",`role`="root",`public_key_expired`="2123-05-15 20:00:24.704" WHERE user_id = "63a9f0ea7bb98050796b649e85481845" AND `user_data`.`deleted_at` IS NULL AND `user_id` = "63a9f0ea7bb98050796b649e85481845"
+
+2024/10/20 20:00:25 /home/tegar/git/project-me/Meta/server/databases/user.go:29 record not found
+[0.257ms] [rows:0] SELECT * FROM `user_data` WHERE user_id = "3c6ce15dc08697fa675c955f5338927f" AND `user_data`.`deleted_at` IS NULL ORDER BY `user_data`.`user_id` DESC LIMIT 1
+
+2024/10/20 20:00:26 /home/tegar/git/project-me/Meta/server/databases/user.go:62
+[18.410ms] [rows:1] INSERT INTO `user_data` (`user_id`,`created_at`,`updated_at`,`deleted_at`,`token`,`username`,`mfa`,`totp_secret`,`role`,`group`,`public_key`,`public_key_expired`,`disabled`) VALUES ("3c6ce15dc08697fa675c955f5338927f","2024-10-20 13:00:26.81","2024-10-20 13:00:26.81",NULL,"$2a$14$JDp1VImB.YHdSWVlUp0gcuZrNx.H8tEUzbHTbb1W8k.PoXYZrbkpO","centralissh-agent",false,"","agent",NULL,"","0000-00-00 00:00:00",false)
+
+2024/10/20 20:00:26 /home/tegar/git/project-me/Meta/server/databases/user.go:29
+[0.173ms] [rows:1] SELECT * FROM `user_data` WHERE user_id = "63a9f0ea7bb98050796b649e85481845" AND `user_data`.`deleted_at` IS NULL ORDER BY `user_data`.`user_id` DESC LIMIT 1
+
+2024/10/20 20:00:27 /home/tegar/git/project-me/Meta/server/databases/user.go:98
+[28.994ms] [rows:1] UPDATE `user_data` SET `user_id`="63a9f0ea7bb98050796b649e85481845",`updated_at`="2024-10-20 13:00:27.839",`token`="$2a$14$PPQ3eGYi3R1HB1Yd92D38OTKxHpVVT90q5YbRg3oROL097oq.j7Xq",`username`="centralissh-agent",`role`="agent",`public_key_expired`="2123-05-15 20:00:26.828" WHERE user_id = "63a9f0ea7bb98050796b649e85481845" AND `user_data`.`deleted_at` IS NULL AND `user_id` = "63a9f0ea7bb98050796b649e85481845"
