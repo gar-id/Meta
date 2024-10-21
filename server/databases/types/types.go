@@ -1,20 +1,29 @@
 package types
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
-type UserData struct {
-	UserID     string `gorm:"primarykey"`
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
-	DeletedAt  gorm.DeletedAt `gorm:"index"`
-	Token      string
-	Username   string
-	MFA        bool
-	TOTPSecret string
-	Role       string
-	Disabled   bool
+type MetaServer struct {
+	gorm.Model
+	ServerID         string
+	Hostname         string
+	PublicIP         string
+	Environment      string
+	Status           string
+	ActiveConnection string
+}
+
+type Service struct {
+	gorm.Model
+	ServerID    string
+	ServiceName string
+	Status      string
+}
+
+type Stunnel struct {
+	gorm.Model
+	ServerID       string
+	ConnectionName string
+	Config         string
 }

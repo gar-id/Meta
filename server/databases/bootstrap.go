@@ -1,16 +1,14 @@
 package databases
 
 import (
-	"crypto/md5"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
 
 	"MetaHandler/server/config/caches"
 	"MetaHandler/server/databases/types"
+	"MetaHandler/tools"
 
 	"gorm.io/gorm"
 )
@@ -36,50 +34,10 @@ func switchDB() *gorm.DB {
 func migration(db *gorm.DB) {
 	// Migrate the schema
 	db.AutoMigrate(
-		&types.UserData{},
-		&types.GroupData{},
-		&types.HostData{},
-		&types.ClientAccess{},
+		&types.MetaServer{},
+		&types.Service{},
+		&types.Stunnel{},
 	)
-
-	// Add root user if not available
-	var rootUser types.UserData
-	userBytes := []byte("admin")
-	userId := fmt.Sprintf("%x", md5.Sum(userBytes))
-	rowEffected, _ := GetUser(&rootUser, userId)
-	if rowEffected == 0 {
-		// Generate root account
-		if rootUser.UserID == "" {
-			InsertUser("admin", "")
-		}
-		var rootData = types.UserData{
-			UserID:           userId,
-			Username:         "admin",
-			Role:             "admin",
-			PublicKeyExpired: time.Now().Add(24 * time.Hour * 30 * 12 * 100),
-		}
-		UpdateUser(rootData)
-	}
-
-	// Add agent user if not available
-	var agentUser types.UserData
-	agentBytes := []byte("centralissh-agent")
-	agentId := fmt.Sprintf("%x", md5.Sum(agentBytes))
-	rowEffected, _ = GetUser(&agentUser, agentId)
-	if rowEffected == 0 {
-		// Generate root account
-		if rootUser.UserID == "" {
-			InsertUser("centralissh-agent", "")
-		}
-		var agentData = types.UserData{
-			UserID:           userId,
-			Username:         "centralissh-agent",
-			Role:             "agent",
-			Token:            caches.MetaHandlerServer.MetaHandlerServer.API.AgentToken,
-			PublicKeyExpired: time.Now().Add(24 * time.Hour * 30 * 12 * 100),
-		}
-		UpdateUser(agentData)
-	}
 
 	sqlDB, _ := db.DB()
 	sqlDB.Close()
@@ -102,7 +60,7 @@ func createSQLiteDB() {
 	filelocation := caches.MetaHandlerServer.MetaHandlerServer.Database.Sqlite.Location
 	_, err := os.OpenFile(filelocation, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0766)
 	if err != nil {
-		log.Fatalf("error opening SQLite file: %v", err)
+		tools.ZapLogger("both", "server").Error(fmt.Sprintf("error opening SQLite file: %v", err))
 	}
 }
 

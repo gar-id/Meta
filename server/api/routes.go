@@ -9,7 +9,7 @@ import (
 func routes(app *fiber.App) {
 
 	api := app.Group("v1")
-	apiMetaHandler := api.Group("/centralissh")
+	apiMetaHandler := api.Group("/meta")
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(process.WelcomeGeneral(200, "success", "Welcome to MetaHandler API"))
@@ -21,20 +21,49 @@ func routes(app *fiber.App) {
 		return c.JSON(process.WelcomeGeneral(200, "success", "Welcome to MetaHandler API"))
 	})
 
-	// Route for User
-	apiMetaHandler.Get("/user/info", func(c *fiber.Ctx) error {
-		return process.UserInfo(c)
+	// Route for handle meta server
+	apiMetaServerHandler := apiMetaHandler.Group("/server")
+	apiMetaServerHandler.Get("/info", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
 	})
-	apiMetaHandler.Post("/user/update", func(c *fiber.Ctx) error {
-		return process.UserUpdate(c)
+	apiMetaServerHandler.Post("/add", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
 	})
-	apiMetaHandler.Post("/user/delete", func(c *fiber.Ctx) error {
-		return process.UserDelete(c)
+	apiMetaServerHandler.Post("/update", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
+	})
+	apiMetaServerHandler.Post("/delete", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
 	})
 
-	// Route for TOTP
-	apiMetaHandler.Post("/user/totp", func(c *fiber.Ctx) error {
-		return process.TOTPInit(c)
+	// Route for handle meta service
+	apiMetaServiceHandler := apiMetaHandler.Group("/service")
+	apiMetaServiceHandler.Get("/info", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
+	})
+	apiMetaServiceHandler.Post("/stop", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
+	})
+	apiMetaServiceHandler.Post("/start", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
+	})
+	apiMetaServiceHandler.Post("/restart", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
+	})
+
+	// Route for handle meta server stunnel
+	apiMetaStunnelHandler := apiMetaHandler.Group("/stunnel")
+	apiMetaStunnelHandler.Get("/info", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
+	})
+	apiMetaStunnelHandler.Post("/add", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
+	})
+	apiMetaStunnelHandler.Post("/update", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
+	})
+	apiMetaStunnelHandler.Post("/delete", func(c *fiber.Ctx) error {
+		return process.GetServerInfo(c)
 	})
 
 }
